@@ -5,20 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoryController : Controller
+    public class CoverTypeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryController(IUnitOfWork unitOfWork)
+        public CoverTypeController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> objCategoryList = _unitOfWork.Category.GetAll();
+            IEnumerable<CoverType> objCoverTypeList = _unitOfWork.CoverType.GetAll();
 
-            return View(objCategoryList);
+            return View(objCoverTypeList);
         }
 
         //GET
@@ -30,17 +30,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category obj)
+        public IActionResult Create(CoverType obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
-            }
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
+                _unitOfWork.CoverType.Add(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category created successfully";
+                TempData["success"] = "Cover Type created successfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -53,31 +49,26 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            //var category = _db.Categories.Find(id);
-            var category = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+            var coverType = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
 
-            if (category == null)
+            if (coverType == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(coverType);
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category obj)
+        public IActionResult Edit(CoverType obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("Name", "The Display Order cannot exactly match the Name.");
-            }
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
+                _unitOfWork.CoverType.Update(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category updated successfully";
+                TempData["success"] = "Cover Type updated successfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -90,14 +81,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var category = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+            var coverType = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
 
-            if (category == null)
+            if (coverType == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(coverType);
         }
 
         //POST
@@ -105,16 +96,16 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? id)
         {
-            var category = _unitOfWork.Category.GetFirstOrDefault(u => u.Id == id);
+            var coverType = _unitOfWork.CoverType.GetFirstOrDefault(u => u.Id == id);
 
-            if (category == null)
+            if (coverType == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.Category.Remove(category);
+            _unitOfWork.CoverType.Remove(coverType);
             _unitOfWork.Save();
-            TempData["success"] = "Category deleted successfully";
+            TempData["success"] = "Cover Type deleted successfully";
             return RedirectToAction("Index");
 
         }
