@@ -98,42 +98,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return View(obj);
         }
 
-        //GET
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var coverType = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
-
-            if (coverType == null)
-            {
-                return NotFound();
-            }
-
-            return View(coverType);
-        }
-
-        //POST
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
-        {
-            var coverType = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
-
-            if (coverType == null)
-            {
-                return NotFound();
-            }
-
-            _unitOfWork.Product.Remove(coverType);
-            _unitOfWork.Save();
-            TempData["success"] = "Cover Type deleted successfully";
-            return RedirectToAction("Index");
-
-        }
-
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
@@ -143,6 +107,27 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         #endregion
 
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
+
+            if (product == null)
+            {
+                return Json(new { success = false, messasge = "Error while deleting" });
+            }
+
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, product.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _unitOfWork.Product.Remove(product);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Product deleted successfully" });
+
+        }
     }
 
 }

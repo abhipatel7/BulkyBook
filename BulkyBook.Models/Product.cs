@@ -34,9 +34,10 @@ namespace BulkyBook.Models
         public double Price50 { get; set; }
         [Required]
         [Range(1, 10000)]
-        [Display(Name = "Pricwe for 100+")]
+        [Display(Name = "Price for 100+")]
         public double Price100 { get; set; }
         [ValidateNever]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; set; }
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
