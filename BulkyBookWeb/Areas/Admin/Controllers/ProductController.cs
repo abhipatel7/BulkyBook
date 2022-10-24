@@ -125,7 +125,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             _unitOfWork.Product.Remove(product);
             _unitOfWork.Save();
-            return Json(new { success = true, message = "Product deleted successfully" });
+            return Json(new { success = true, message = "Company deleted successfully" });
 
         }
     }
