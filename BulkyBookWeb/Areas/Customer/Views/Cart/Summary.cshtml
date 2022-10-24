@@ -1,4 +1,7 @@
 ﻿@model BulkyBook.Models.ViewModels.ShoppingCartViewModel
+@using Microsoft.Extensions.Options
+@inject IOptions<BulkyBook.Utility.StripeSettings> Stripe
+
 @{
 	ViewData["Title"] = "Summary";
 }
