@@ -129,11 +129,11 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!await _roleManager.RoleExistsAsync(SD.Role_Admin)) {
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Individual));
-                await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Company));
+            if (!await _roleManager.RoleExistsAsync(StaticDetails.Role_Admin)) {
+                await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin));
+                await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Employee));
+                await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_User_Individual));
+                await _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_User_Company));
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -168,7 +168,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
                 user.Name = Input.Name;
-                if(Input.Role == SD.Role_User_Company)
+                if(Input.Role == StaticDetails.Role_User_Company)
                 {
                     user.CompanyId = Input.CompanyId;
                 }
@@ -181,7 +181,7 @@ namespace BulkyBookWeb.Areas.Identity.Pages.Account
 
                     if(Input.Role == null)
                     {
-                        await _userManager.AddToRoleAsync(user, SD.Role_User_Individual);
+                        await _userManager.AddToRoleAsync(user, StaticDetails.Role_User_Individual);
                     } else
                     {
                         await _userManager.AddToRoleAsync(user, Input.Role);
