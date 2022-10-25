@@ -1,13 +1,30 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    loadDataTable();
+    var url = window.location.search;
+    switch (url.split('=')[1]) {
+        case "inprocess":
+            loadDataTable("inprocess");
+            break;
+        case "completed":
+            loadDataTable("completed");
+            break;
+        case "pending":
+            loadDataTable("pending");
+            break;
+        case "approved":
+            loadDataTable("approved");
+            break;
+        default:
+            loadDataTable("all");
+            break;
+    }
 })
 
-function loadDataTable() {
+function loadDataTable(status) {
     dataTable = $('#orderTable').DataTable({
         "ajax": {
-            "url": "/Admin/Order/GetAll"
+            "url": "/Admin/Order/GetAll?status=" + status
         },
         "columns": [
             { "data": "id", "width": "5%" },
