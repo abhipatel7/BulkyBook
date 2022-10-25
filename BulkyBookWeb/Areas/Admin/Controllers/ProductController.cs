@@ -105,7 +105,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             var productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
             return Json(new { data=productList });
         }
-        #endregion
 
         [HttpDelete]
         public IActionResult Delete(int? id)
@@ -128,6 +127,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return Json(new { success = true, message = "Company deleted successfully" });
 
         }
+        #endregion
     }
 
 }
